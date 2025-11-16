@@ -63,7 +63,20 @@ function draw() {
     noFill();
     stroke(r, g, b);
     strokeWeight(3);
-    circle(cW.x, cW.y, 2 * 1 * view.s);
+    circle(cW.x, cW.y, 2 * UNIT_R * view.s);
+
+    noStroke();
+    for (const P of pts) {
+      if (ptColor[pts.indexOf(P)] !== worst.colorIndex) continue;
+      const dx = P.x - worst.center.x,
+        dy = P.y - worst.center.y;
+      if (dx * dx + dy * dy <= 1 + 1e-9) {
+        const s = toScreen(P);
+        const [r, g, b] = palette[worst.colorIndex % palette.length];
+        fill(r, g, b, 90);
+        circle(s.x, s.y, 12);
+      }
+    }
 
     noStroke();
     fill(20);
