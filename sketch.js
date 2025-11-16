@@ -94,14 +94,11 @@ function drawLegendBoxes() {
   text(legend, x0, y0 + 5);
 }
 
-function depthToRGB(color_idx, k) {
-  const [r, g, b] = palette[Math.min(color_idx, palette.length - 1)];
-  return color(r, g, b);
-}
-
 windowResized = function () {
   resizeCanvas(windowWidth, windowHeight);
   computeView();
+  kSel.position(windowWidth - kSel.width - 20, 10);
+  ptsInpt.position(windowWidth - ptsInpt.width - 50, 10);
 };
 
 function computeView() {
