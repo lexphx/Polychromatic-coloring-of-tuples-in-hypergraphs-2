@@ -17,6 +17,8 @@ let kSel;
 let ptsInpt;
 let ptColor = [];
 let legend = "";
+let probeMode = false;
+let probeStats = null;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -37,6 +39,10 @@ function setup() {
     pts = generateRandomPoints(n);
     recolorPoints();
     computeView();
+    recolorPoints();
+    computeView();
+    probeMode = false;
+    probeStats = false;
   });
   computeView();
 }
@@ -46,6 +52,8 @@ function draw() {
   if (nk != k) {
     k = nk;
     recolorPoints();
+    probeMode = false;
+    probeStats = false;
   }
   background(255);
   noStroke();
@@ -56,7 +64,14 @@ function draw() {
     circle(s.x, s.y, 6);
   }
 
-  const worst = analyzeWorstMono();
+  let worst;
+  if (probeMode && probeStats) {
+    // use the last clicked disk
+    worst = probeStats;
+  } else {
+    // default: global worst unit disk
+    worst = analyzeWorstMono();
+  }
   if (worst.center) {
     const cW = toScreen(worst.center);
     const [r, g, b] = palette[worst.colorIndex % palette.length];
@@ -83,7 +98,7 @@ function draw() {
     textSize(14);
     const est = Math.sqrt(k * Math.log(k));
     const c = (worst.M * worst.M) / (k * Math.log(k));
-    legend = `M = ${worst.M} | √(k ln k) ≈ ${est.toFixed(2)} | c ≈ ${c.toFixed(
+    legend = `M = ${worst.M} | √(k ln k) ≈ ${est.toFixed(2)} | ĉ ≈ ${c.toFixed(
       2
     )}`;
     drawLegendBoxes();
@@ -235,4 +250,39 @@ function analyzeWorstMono() {
     if (res.M > worst.M) worst = { ...res, colorIndex: ci };
   }
   return worst;
+}
+
+function statsAtCenter(cx, cy) {
+  const counts = Array(k).fill(0);
+
+  for (let i = 0; i < pts.length; i++) {
+    const P = pts[i];
+    const dx = P.x - cx,
+      dy = P.y - cy;
+    if (dx * dx + dy * dy <= UNIT_R * UNIT_R + 1e-9) {
+      counts[ptColor[i]]++;
+    }
+  }
+  let bestM = 0,
+    bestColor = 0;
+  for (let c = 0; c < k; c++) {
+    if (counts[c] > bestM) {
+      bestM = counts[c];
+      bestColor = c;
+    }
+  }
+  return { M: bestM, colorIndex: bestColor, center: { x: cx, y: cy } };
+}
+
+function mousePressed() {
+  // Ignore clicks on the UI controls
+  const el = document.elementFromPoint(mouseX, mouseY);
+  if (kSel && kSel.elt.contains(el)) return;
+  if (ptsInpt && ptsInpt.elt.contains(el)) return;
+
+  const w = fromScreen(mouseX, mouseY);
+  disk.cx = w.x;
+  disk.cy = w.y;
+  probeStats = statsAtCenter(disk.cx, disk.cy);
+  probeMode = true;
 }
