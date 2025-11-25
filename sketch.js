@@ -103,6 +103,11 @@ function draw() {
     )}`;
     drawLegendBoxes();
   }
+  noStroke();
+  fill(120);
+  textSize(13);
+  textAlign(LEFT, BOTTOM);
+  text("Tip: click anywhere to move the disk", 12, height - 10);
 }
 
 function drawLegendBoxes() {
