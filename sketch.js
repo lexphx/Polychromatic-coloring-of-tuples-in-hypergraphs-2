@@ -180,7 +180,7 @@ function generateRandomPoints(n, range = 3) {
     const x = floor(random(range));
     const y = floor(random(range));
 
-    if(!pts.some(p => p.x === x && p.y === y){
+    if(!pts.some(p => p.x === x && p.y === y)){
       pts.push({x,y});
     }
   }
