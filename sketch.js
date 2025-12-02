@@ -174,11 +174,11 @@ function fromScreen(x, y) {
   };
 }
 
-function generateRandomPoints(n, range = 20) {
+function generateRandomPoints(n) {
   const pts = [];
   for (let i = 0; i < n; i++) {
-    const x = floor(random(range));
-    const y = floor(random(range));
+    const x = floor(random(n));
+    const y = floor(random(n));
 
     if(!pts.some(p => p.x === x && p.y === y)){
       pts.push({x,y});
