@@ -2,7 +2,7 @@ const pad = 40;
 let k = 3;
 const k_choice = [3, 4, 5];
 let cpts = 20;
-const UNIT_R = 1;
+const UNIT_R = 10;
 const palette = [
   [10, 50, 255],
   [10, 255, 50],
@@ -37,6 +37,7 @@ function setup() {
   ptsInpt.changed(() => {
     const n = int(ptsInpt.value());
     pts = generateRandomPoints(n);
+    UNIT_R=floor(n/2);
     recolorPoints();
     computeView();
     recolorPoints();
@@ -213,7 +214,7 @@ function countInUnitDisk(points, cx, cy) {
   for (const P of points) {
     const dx = P.x - cx,
       dy = P.y - cy;
-    if (dx * dx + dy * dy <= 1 + 1e-9) cnt++;
+    if (dx * dx + dy * dy <= UNIT_R + 1e-9) cnt++;
   }
   return cnt;
 }
