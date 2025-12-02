@@ -37,7 +37,7 @@ function setup() {
   ptsInpt.changed(() => {
     const n = int(ptsInpt.value());
     pts = generateRandomPoints(n);
-    UNIT_R=floor(n/2);
+    UNIT_R=floor(n/4);
     recolorPoints();
     computeView();
     recolorPoints();
