@@ -2,7 +2,7 @@ const pad = 40;
 let k = 3;
 const k_choice = [3, 4, 5];
 let cpts = 20;
-const UNIT_R = 10;
+const UNIT_R = 5;
 const palette = [
   [10, 50, 255],
   [10, 255, 50],
