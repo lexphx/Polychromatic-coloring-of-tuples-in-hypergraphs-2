@@ -174,7 +174,7 @@ function fromScreen(x, y) {
   };
 }
 
-function generateRandomPoints(n, range = 10) {
+function generateRandomPoints(n, range = 20) {
   const pts = [];
   for (let i = 0; i < n; i++) {
     const x = floor(random(range));
