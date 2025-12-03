@@ -86,7 +86,7 @@ function draw() {
       if (ptColor[pts.indexOf(P)] !== worst.colorIndex) continue;
       const dx = P.x - worst.center.x,
         dy = P.y - worst.center.y;
-      if (dx * dx + dy * dy <= UNIT_R + 1e-9) {
+      if (dx * dx + dy * dy <= UNIT_R * UNIT_R + 1e-9) {
         const s = toScreen(P);
         const [r, g, b] = palette[worst.colorIndex % palette.length];
         fill(r, g, b, 90);
