@@ -2,7 +2,7 @@ const pad = 40;
 let k = 3;
 const k_choice = [3, 4, 5];
 let cpts = 20;
-const UNIT_R = 5;
+const UNIT_R = 7;
 const palette = [
   [10, 50, 255],
   [10, 255, 50],
@@ -37,7 +37,7 @@ function setup() {
   ptsInpt.changed(() => {
     const n = int(ptsInpt.value());
     pts = generateRandomPoints(n);
-    UNIT_R=floor(n/4);
+    UNIT_R=ceil(n/3);
     recolorPoints();
     computeView();
     recolorPoints();
@@ -86,7 +86,7 @@ function draw() {
       if (ptColor[pts.indexOf(P)] !== worst.colorIndex) continue;
       const dx = P.x - worst.center.x,
         dy = P.y - worst.center.y;
-      if (dx * dx + dy * dy <= 1 + 1e-9) {
+      if (dx * dx + dy * dy <= UNIT_R + 1e-9) {
         const s = toScreen(P);
         const [r, g, b] = palette[worst.colorIndex % palette.length];
         fill(r, g, b, 90);
